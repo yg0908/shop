@@ -5,10 +5,11 @@ import bg from './img/bg.png';
 import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import Detail from './pages/detail.jsx';
+import axios from 'axios';
 
 function App() {
 
-  let [shoes] = useState(data)
+  let [shoes, setShoes] = useState(data)
   let navigate = useNavigate();
 
   return (
@@ -58,10 +59,23 @@ function App() {
                 </div> */}
               </div>
             </div>
+            <button onClick={()=>{
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+              .then((결과)=>{ 
+              console.log(결과.data)
+              let copy = [...shoes, ...결과.data];
+              setShoes(copy);
+              })
+              .catch(()=>{
+                console.log('실패함ㅅㄱ')
+              })
+            }}>버튼</button>
           </>
         } />
-        <Route path="/detail" element={<Detail />} />
-        <Route path="*" element={<div>없는페이지요</div>} />
+        <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
+
+
+        {/* <Route path="*" element={<div>없는페이지요</div>} /> */}
 
         <Route path="/about" element={<About />}>
           <Route path="/about/member" element={<div>멤버임</div>} />

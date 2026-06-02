@@ -141,3 +141,96 @@ function About(){
 뜻은 About 안에 <Route path="/about/member" element={<div>멤버임</div>} /> 를 넣어준다는것
 
 nested routes의 element 보여주는 곳은 <Outlet>
+
+## 여러개의 상세페이지를 만들기
+
+<Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
+path 값에 저런식으로 :작명 하면 어떤식으로든 저 url로 이동 - :URL파라미터
+
+useParams(); 라는 훅은 유저가 URL파라미터에 입력한거 가져오는 함수
+
+detail.jsx 에 let {id} = useParams(); 이값이 ->
+
+App.jsx <Route path="/detail/:id" element={<Detail shoes={shoes}/>} /> :id값이 찍히는것
+
+## styled-components
+
+npm install styled-components 로 설치
+
+예)
+let YellowBtn = styled.button`
+    background : yellow; => background : ${ props => props.bg };
+    color : black;
+    padding : 10px;
+`
+이런 식으로 css 파일 안열어도 만들 수 있음
+
+만약 비슷한 형태의 ui 인데 색만 바꾸고싶다면?
+background : ${ props => props.bg }; 이렇게
+
+<YellowBtn bg="blue">버튼</YellowBtn> 넣으면 파란색바탕의 버튼 생성
+
+color : ${ props => props.bg == 'blue' ? 'white' : 'black' }; 이런식으로 간단한 프로그래밍가능
+
+## useEffect
+
+mount - 장착(로드될때)
+update - 업데이트될때(재렌더링) - useState 변경될때
+unmount - 사라질떄 - 컴포넌트사라질때(페이지이동)
+
+useEffect(()=>{}) mount, update시 코드 실행해주는 useEffect
+
+쓰는이유 
+- useEffect 안에있는 코드는 html 렌더링 후에 동작
+- 어려운 연산
+- 서버에서 데이터 가져오는작업
+- 타이머 장착하는거
+
+useEffect(()=>{
+        setTimeout(()=>{ setAlert(false) }, 2000);
+    }, [count]);
+
+  이런식으로 useEffect 실행조건 넣을 수 있는 []
+  count함수가 변경될때만 동작
+  컴포넌트 mount시 1회만 실행하고싶다면 -> []
+  [] 없으면 mount, update시 실행
+
+  useEffect(()=>{
+        setTimeout(()=>{ setAlert(false) }, 2000);
+        return()=>{
+          clean up function - 이건 useEffect 전에 먼저 동작
+        }
+    }, []);
+
+    clean up function은 mount시 실행x unmount시 실행ㅇ
+
+## ajax 서버통신
+
+1. 방법 GET/POST
+
+데이터 가져올때 GET
+데이터 보낼때 POST
+
+2. 어떤자료(URL) -> 서버만든 사람한테요청
+
+3. AJAX로 GET/POST요청하려면 방법 3개 중 택1 하면 됩니다.
+
+- XMLHttpRequest라는 옛날 문법 쓰기
+
+- fetch() 라는 최신 문법 쓰기
+
+- axios 같은 외부 라이브러리 쓰기 
+npm install axios 외부라이브러리 설치
+import axios from 'axios'; 해주기
+
+예)
+<button onClick={()=>{
+  axios.get('https://codingapple1.github.io/shop/data2.json')
+  .then((data)=>{ data })  -> 출력해서 보고싶다 .then() 함수
+  console.log(data)
+}}>버튼</button>
+
+ajax 요청 실패했을때 특정코드를 실행하고프면
+.catch(()=>{
+  console.log('실패함')
+})
