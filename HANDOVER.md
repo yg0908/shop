@@ -234,3 +234,10 @@ ajax 요청 실패했을때 특정코드를 실행하고프면
 .catch(()=>{
   console.log('실패함')
 })
+
+## 여러군데에 ajax를 신청해야할 때
+
+Promise.all([ axios.get('/url1'), axios.get('/url2') ])
+.then(()=>{
+
+})

@@ -69,7 +69,15 @@ function App() {
               .catch(()=>{
                 console.log('실패함ㅅㄱ')
               })
-            }}>버튼</button>
+
+              axios.post('/url', {name : 'kim'});
+
+              Promise.all([ axios.get('/url1'), axios.get('/url2') ])
+              .then(()=>{
+
+              })
+
+            }}>더보기</button>
           </>
         } />
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />

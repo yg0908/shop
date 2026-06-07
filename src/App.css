@@ -192,3 +192,11 @@
 
 .btn-link{text-decoration: none;}
 .btn-link + .btn-link {margin-left: 10px;}
+
+.start{
+  opacity: 0;
+}
+.end{
+  opacity: 1;
+  transition: opacity 0.5s;
+}
