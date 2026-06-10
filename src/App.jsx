@@ -1,15 +1,19 @@
-import { useState } from 'react'
+import { createContext, useState } from 'react'
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import './App.css'
 import bg from './img/bg.png';
 import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
-import Detail from './pages/detail.jsx';
+import Detail from './pages/Detail.jsx';
 import axios from 'axios';
+import Cart from './pages/Cart.jsx'
+
+export let Context1 = createContext();
 
 function App() {
 
   let [shoes, setShoes] = useState(data)
+
   let navigate = useNavigate();
 
   return (
@@ -80,7 +84,9 @@ function App() {
             }}>더보기</button>
           </>
         } />
-        <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
+        <Route path="/detail/:id" element={
+            <Detail shoes={shoes}/>
+          } />
 
 
         {/* <Route path="*" element={<div>없는페이지요</div>} /> */}
@@ -94,6 +100,8 @@ function App() {
           <Route path="/event/one" element={<div>첫 주문시 양배추즙 서비스</div>} />
           <Route path="/event/two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
+
+        <Route path='/cart' element={ <Cart /> } />
         
       </Routes>
       

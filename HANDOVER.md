@@ -241,3 +241,55 @@ Promise.all([ axios.get('/url1'), axios.get('/url2') ])
 .then(()=>{
 
 })
+
+## Redux 컴포넌트들이 props 없이 state 공유가능
+
+npm install @reduxjs/toolkit react-redux 설치
+
+src폴더에 store.js 생성
+
+- 코드 셋팅
+
+import { configureStore } from '@reduxjs/toolkit'
+
+export default configureStore({
+    reducer: { }
+})
+
+state를 담는 통
+
+index.js 나 main.js 에
+
+<Provider></Provider> 이 태그로 감싸기
+
+예)
+
+import { Provider } from 'react-redux';
+import store from './store.js'
+
+<StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
+</StrictMode>
+
+- 사용법 
+
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+
+createSlice({
+    name : 'user',
+    initialState : 'kim'
+})
+
+export default configureStore({
+    reducer: { 
+        user : user.reducer
+    }
+})
+
+- Redex store 의 starte 꺼내는법
+
+useSelector((state)=>{ return state })

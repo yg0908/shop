@@ -1,7 +1,9 @@
-import { use } from "react";
+import { use, useContext } from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
+
+import { Context1 } from "../App";
 
 
 function Detail(props) {
@@ -30,17 +32,17 @@ function Detail(props) {
         }
     }, [num]);
 
-    useEffect(()=>{
-        setTimeout(()=>{setFade2('end')}, 100)
+    // useEffect(()=>{
+    //     setTimeout(()=>{setFade2('end')}, 100)
         
-        return ()=>{
-            setFade2('')
-        }
-    })
+    //     return ()=>{
+    //         setFade2('')
+    //     }
+    // })
     
 
     return (
-        <div className={"container start " + fade2}>
+        <div className={"container"}>
             <input className="form-control" type="text" value={num} onChange={(e)=>{setNum(e.target.value)}} />
             
             {
