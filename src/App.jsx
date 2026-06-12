@@ -25,6 +25,7 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link onClick={()=>{ navigate('/') }}>Home</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/detail') }}>Detail</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/cart') }}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -66,9 +67,9 @@ function App() {
             <button onClick={()=>{
               axios.get('https://codingapple1.github.io/shop/data2.json')
               .then((결과)=>{ 
-              console.log(결과.data)
-              let copy = [...shoes, ...결과.data];
-              setShoes(copy);
+                console.log(결과.data)
+                let copy = [...shoes, ...결과.data];
+                setShoes(copy);
               })
               .catch(()=>{
                 console.log('실패함ㅅㄱ')

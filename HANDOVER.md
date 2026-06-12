@@ -293,3 +293,64 @@ export default configureStore({
 - Redex store 의 starte 꺼내는법
 
 useSelector((state)=>{ return state })
+
+## Redux state 변경하려면
+
+1. state 변경해주는 함수 만들기
+
+- store.js
+
+let user = createSlice({
+    name : 'user',
+    initialState : 'kim',
+    reducers : {
+        changeName(state){
+            return 'john kim'
+        }
+    }
+})
+
+2. export 해주기
+
+export let {changeName, 함수2} = user.actions
+
+
+3. dispatch(state변경함수())
+
+- cart.jsx
+
+let dispatch = useDispatch() 만들기
+
+<tbody>
+    {
+        state.cart.map((a, i)=>
+            <tr key={i}>
+                <td>1</td>
+                <td>{state.cart[i].name}</td>
+                <td>{state.cart[i].count}</td>
+                <td><button onClick={()=>{
+                    dispatch(changeName())
+                }}>+</button></td>
+            </tr>
+        )
+    }
+</tbody>
+
+## state 변경함수에 파라미터 뚫는 법
+
+let user = createSlice({
+    name : 'user',
+    initialState : { name : 'kim', age : 20},
+    reducers : {
+        changeName(state){
+            return { name : 'park', age : 20}
+        },
+        ---------------------------
+        increase(state, a){
+            state.age += a.payload
+        }
+        ---------------------------
+    }
+})
+
+payload 써줘야함 소포, 택배라는뜻
