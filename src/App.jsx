@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import './App.css'
 import bg from './img/bg.png';
@@ -7,14 +7,30 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import Detail from './pages/Detail.jsx';
 import axios from 'axios';
 import Cart from './pages/Cart.jsx'
+import { useQuery } from '@tanstack/react-query';
 
 export let Context1 = createContext();
 
 function App() {
 
-  let [shoes, setShoes] = useState(data)
+  let obj = { name : 'kim' }
+  localStorage.setItem('data', JSON.stringify(obj))
+  let 꺼낸거 = localStorage.getItem('data')
+  console.log(JSON.parse(꺼낸거))
 
+  useEffect(()=>{
+    localStorage.setItem('watched', JSON.stringify( [] ))
+  }, [])
+
+  let [shoes, setShoes] = useState(data)
   let navigate = useNavigate();
+
+  let result = useQuery({
+    queryKey: ['getName'],
+    queryFn: () =>
+      axios.get('https://codingapple1.github.io/userdata.json')
+      .then(a => a.data)
+  })
 
   return (
     <div className='App'>
@@ -24,8 +40,13 @@ function App() {
           <Navbar.Brand href="#ShoeShop">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={()=>{ navigate('/') }}>Home</Nav.Link>
-            <Nav.Link onClick={()=>{ navigate('/detail') }}>Detail</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/detail/0') }}>Detail</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/cart') }}>Cart</Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            { result.isPending && '로딩중' }
+            { result.isError && '에러남' }
+            { result.isSuccess && result.data.name }
           </Nav>
         </Container>
       </Navbar>

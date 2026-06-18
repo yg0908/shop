@@ -6,9 +6,15 @@ import { Nav } from "react-bootstrap";
 import { Context1 } from "../App";
 import { addItem } from "../store";
 import { useDispatch } from "react-redux";
+import { useLike } from "../hooks/like";
+import { useUsername } from "../hooks/name.js";
+import axios from "axios";
 
 
 function Detail(props) {
+
+    let [like, addLike] = useLike()
+    let [username, setUsername] = useUsername()
 
     let {id} = useParams();
     let 찾은상품 = props.shoes.find((item) => {
@@ -22,10 +28,20 @@ function Detail(props) {
     let dispatch = useDispatch()
 
     useEffect(()=>{
-        setTimeout(()=>{ setAlert(false) }, 2000);
-        return()=>{
-        }
-    }, []);
+        let 꺼낸거 = localStorage.getItem('watched')
+        꺼낸거 = JSON.parse(꺼낸거)
+        꺼낸거.push(찾은상품.id)
+        꺼낸거 = new Set(꺼낸거)
+        꺼낸거 = Array.from(꺼낸거)
+        localStorage.setItem('watched', JSON.stringify(꺼낸거))
+    }, [])
+    
+
+    // useEffect(()=>{
+    //     setTimeout(()=>{ setAlert(false) }, 2000);
+    //     return()=>{
+    //     }
+    // }, []);
 
     useEffect(()=>{
         if(num !== ''){
@@ -43,7 +59,6 @@ function Detail(props) {
     //     }
     // })
     
-
     return (
         <div className={"container"}>
             <input className="form-control" type="text" value={num} onChange={(e)=>{setNum(e.target.value)}} />
@@ -62,6 +77,10 @@ function Detail(props) {
                     <img src={'https://codingapple1.github.io/shop/shoes' +(찾은상품.id + 1)+ '.jpg'} width='100%' />
                 </div>
                 <div className="col-md-6">
+                    {setUsername}
+
+                    {like} <span onClick={()=>{ addLike() }}>❤</span>
+
                     <h4 className="pt-5">{찾은상품.title}</h4>
                     <p>{찾은상품.content}</p>
                     <p>{찾은상품.price}</p>

@@ -354,3 +354,80 @@ let user = createSlice({
 })
 
 payload 써줘야함 소포, 택배라는뜻
+
+## localStorage
+
+개발자 도구(F12)에서 Application 에서 Local storage 에 저장하면 페이지 새로고침해도 안없어짐
+단 문자로 저장가능함
+
+- console창에 이런식으로 입력해보면 저장되는거 확인가능
+localStorage.setItem('age','20')
+undefined
+localStorage.getItem('age')
+'20'
+localStorage.removeItem('age')
+undefined
+
+- Session Storage는 홈페이지 끄면 데이터 없어짐
+
+- localStorage에서 array/object 저장하려면 JSON으로 바꿔야함
+
+let obj = { name : 'kim' }
+localStorage.setItem('data', obj) -> 깨짐
+
+JSON.stringify() 활용
+
+let obj = { name : 'kim' }
+localStorage.setItem('data', JSON.stringify(obj)) -> 잘나옴
+
+- JSON 파일이기 때문에 꺼내서쓰면 "" 이 다있음
+JSON.parse() 활용하면 JSON -> array/object 변환
+
+let obj = { name : 'kim' }
+localStorage.setItem('data', JSON.stringify(obj))
+let 꺼낸거 = localStorage.getItem('data')
+console.log(JSON.parse(꺼낸거))
+
+## Tanstack Query
+
+Tanstack Query로 ajax 요청하려면
+
+- 셋팅
+npm install @tanstack/react-query@5
+
+main.js 나 index.js 에 
+
+const queryClient =  new QueryClient() 변수에 담아주고
+
+render 안에
+
+<QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+        <BrowserRouter>
+        <App />
+        </BrowserRouter>
+    </Provider>
+</QueryClientProvider>
+
+- App.jsx
+useQuery({
+    queryKey: ['작명'],
+    querFn: () => { ajax요청~~ }
+})
+
+let result = useQuery({
+    queryKey: ['getName'],
+    refetchOnWindowFocus: false, -> 창으로 복귀시 ajax요청 재전송x
+    retry: 10 -> 실패시 재시도 횟수
+    querFn: () =>
+        axios.get('https://codingapple1.github.io/userdata.json')
+        .then(a => a.data)
+})
+
+이런식으로 데이터를 가져오면 편한게
+<Nav className="ms-auto">
+    { result.isPending && '로딩중' }
+    { result.isError && '에러남' }
+    { result.isSuccess && result.data.name }
+</Nav>
+삼항연산자나 if문 안써도 가능함
