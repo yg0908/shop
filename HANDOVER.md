@@ -1,3 +1,11 @@
+## 리액트셋팅
+
+1. Node.js 다운
+
+2. 작업폴더에 shift + 우클릭해서 여기서 powershell 열기를 누릅니다.
+
+3. 터미널에 npm create vite@latest 입력
+
 ## 부트스트랩 라이브러리 이용하기
 
 1. 구글에 react bootstrap 검색후 start 누르기

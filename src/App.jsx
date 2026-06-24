@@ -23,7 +23,7 @@ function App() {
   }, [])
 
   let [shoes, setShoes] = useState(data)
-  let navigate = useNavigate();
+  let navigate = useNavigate();0
 
   let result = useQuery({
     queryKey: ['getName'],
